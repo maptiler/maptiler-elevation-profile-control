@@ -1,0 +1,68 @@
+{
+  "name": "@maptiler/elevation-control",
+  "version": "1.1.2",
+  "description": "Elevation control for MapTiler SDK",
+  "module": "dist/maptiler-elevation-control.js",
+  "types": "dist/maptiler-elevation-control.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/maptiler-elevation-control.js",
+      "types": "./dist/maptiler-elevation-control.d.ts"
+    }
+  },
+  "author": "MapTiler",
+  "keywords": [
+    "maptiler",
+    "plugin"
+  ],
+  "scripts": {
+    "format:fix": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,ts}\"",
+    "format": "prettier -c \"src/**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,ts}\"",
+    "make": "npm run format:fix && npm run lint:fix && npm run build",
+    "dev": "vite -c vite.config-es.ts",
+    "build": "npm run build-es; npm run build-umd",
+    "build-dev": "NODE_ENV=development npm run build-es; NODE_ENV=development npm run build-umd",
+    "build-umd": "tsc && vite build -c vite.config-umd.ts",
+    "build-es": "tsc && vite build -c vite.config-es.ts",
+    "build-umd-dev-watch": "tsc && NODE_ENV=development vite build -w -c vite.config-umd.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maptiler/maptiler-elevation-control.git"
+  },
+  "license": "",
+  "devDependencies": {
+    "@types/chartjs-plugin-crosshair": "^1.1.4",
+    "@types/node": "^20.4.5",
+    "@types/three": "^0.155.0",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.44.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.28.0",
+    "prettier": "^2.8.8",
+    "terser": "^5.19.2",
+    "typescript": "^5.0.4",
+    "vite": "^4.4.8",
+    "vite-plugin-dts": "^3.4.0"
+  },
+  "dependencies": {
+    "@maptiler/client": "file:../maptiler-client-js",
+    "@types/events": "^3.0.0",
+    "@types/geojson": "^7946.0.13",
+    "chart.js": "^4.4.0",
+    "chartjs-plugin-crosshair": "^2.0.0",
+    "chartjs-plugin-zoom": "^2.0.1",
+    "events": "^3.3.0",
+    "ol": "^7.1.0",
+    "quick-lru": "^7.0.0",
+    "three": "^0.135.0",
+    "vite-plugin-glsl": "^1.1.2"
+  },
+  "peerDependencies": {
+    "@maptiler/sdk": "^1.1.1"
+  }
+}
