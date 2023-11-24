@@ -243,6 +243,14 @@ export class ElevationProfile {
       },
 
       options: {
+        layout: {
+          padding: {
+            left: 10,
+            right: 10,
+            bottom: 10,
+            top: 30,
+          },
+        },
         onClick: (_e, item) => {
           if (typeof this.settings.onClick !== "function") return;
 
