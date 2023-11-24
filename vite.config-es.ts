@@ -18,8 +18,8 @@ export default defineConfig({
     sourcemap: !isProduction,
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, 'src/maptiler-elevation-control.ts'),
-      name: 'maptilerelevationcontrol',
+      entry: resolve(__dirname, 'src/maptiler-elevation-profile-control.ts'),
+      name: 'maptilerelevationprofilecontrol',
       // the proper extensions will be added
       fileName: (format, entryName) => `${entryName}.js`,
       formats: ['es'],
@@ -30,6 +30,7 @@ export default defineConfig({
       // into your library
       external: [
         "@maptiler/sdk",
+        "@maptiler/client",
       ],
       output: {
         // Provide global variables to use in the UMD build

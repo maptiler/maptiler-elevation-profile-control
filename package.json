@@ -1,14 +1,14 @@
 {
-  "name": "@maptiler/elevation-control",
-  "version": "1.1.2",
+  "name": "@maptiler/elevation-profile-control",
+  "version": "1.0.0",
   "description": "Elevation control for MapTiler SDK",
-  "module": "dist/maptiler-elevation-control.js",
-  "types": "dist/maptiler-elevation-control.d.ts",
+  "module": "dist/maptiler-elevation-profile-control.js",
+  "types": "dist/maptiler-elevation-profile-control.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/maptiler-elevation-control.js",
-      "types": "./dist/maptiler-elevation-control.d.ts"
+      "import": "./dist/maptiler-elevation-profile-control.js",
+      "types": "./dist/maptiler-elevation-profile-control.d.ts"
     }
   },
   "author": "MapTiler",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/maptiler/maptiler-elevation-control.git"
+    "url": "https://github.com/maptiler/maptiler-elevation-profile-control.git"
   },
   "license": "",
   "devDependencies": {
@@ -47,10 +47,12 @@
     "terser": "^5.19.2",
     "typescript": "^5.0.4",
     "vite": "^4.4.8",
-    "vite-plugin-dts": "^3.4.0"
+    "vite-plugin-dts": "^3.4.0",
+    "vite-svg-loader": "^5.1.0"
   },
   "dependencies": {
     "@maptiler/client": "file:../maptiler-client-js",
+    "@maptiler/sdk": "^1.2.0",
     "@types/events": "^3.0.0",
     "@types/geojson": "^7946.0.13",
     "chart.js": "^4.4.0",
@@ -61,8 +63,5 @@
     "quick-lru": "^7.0.0",
     "three": "^0.135.0",
     "vite-plugin-glsl": "^1.1.2"
-  },
-  "peerDependencies": {
-    "@maptiler/sdk": "^1.1.1"
   }
 }
