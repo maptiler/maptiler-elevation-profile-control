@@ -450,6 +450,30 @@ export class ElevationProfile {
         },
       ],
     });
+
+    // If the tooltip is shown, then we hide it when panning the chart
+    if (this.settings.displayTooltip) {
+      let mouseDown = false;
+      this.chart.canvas.addEventListener("mousedown", () => {
+        mouseDown = true;
+      });
+
+      this.chart.canvas.addEventListener("mousemove", () => {
+        if (mouseDown && this.chart.options.plugins && this.chart.options.plugins.tooltip) {
+          this.chart.options.plugins.tooltip.enabled = false;
+          this.chart.update();
+        }
+      });
+
+      window.addEventListener("mouseup" , () => {
+        if (this.chart.options.plugins && this.chart.options.plugins.tooltip) {
+          this.chart.options.plugins.tooltip.enabled = true;
+          this.chart.update();
+          mouseDown = false;
+        }
+      });
+    }
+
   }
 
   createWindowExtractLineString(): LineString {

@@ -3,10 +3,13 @@ import { ElevationProfile, ElevationProfileOptions } from "./elevationprofile";
 import { isUUID } from "./tools";
 // @ts-ignore
 import elevationIcon from "./images/elevation-icon.svg";
+// @ts-ignore
+import elevationFillIcon from "./images/elevation_fill-icon.svg";
 import { GeoJsonObject } from "geojson";
 
 export type ElevationProfileControlOptions = ElevationProfileOptions & {
   container?: string | HTMLDivElement,
+  showButton?: boolean,
   containerClass?: string,
   position?: "top" | "left" | "right" | "bottom",
 };
@@ -17,6 +20,7 @@ export class ElevationProfileControl implements IControl {
   private buttonContainer?: HTMLDivElement;
   private toggleButton?: HTMLButtonElement;
   private isProfileShown: boolean = false;
+  private iconSpan?: HTMLSpanElement;
 
   private profileContainer?: HTMLDivElement;
   private settings: ElevationProfileControlOptions;
@@ -24,8 +28,11 @@ export class ElevationProfileControl implements IControl {
   private elevationProfileChart?: ElevationProfile;
 
   constructor(options: ElevationProfileControlOptions = {}) {
-    console.log("options", options);
     this.settings = options;
+  }
+
+  getContainer(): HTMLDivElement | undefined {
+    return this.profileContainer;
   }
 
 
@@ -33,27 +40,33 @@ export class ElevationProfileControl implements IControl {
     this.map = map;
   
     this.buttonContainer = document.createElement("div");
+
+    if (this.settings.showButton === false) {
+      this.buttonContainer.style.setProperty("display", "none");
+    }
+
     this.buttonContainer.classList.add("maplibregl-ctrl", "maplibregl-ctrl-group");
     this.toggleButton = document.createElement("button");
     this.buttonContainer.appendChild(this.toggleButton);
-    const span = document.createElement("span");
-    span.classList.add("maplibregl-ctrl-icon");
-    this.toggleButton.appendChild(span);
-    span.style.setProperty("background-image", `url(${elevationIcon})`);
+    this.iconSpan = document.createElement("span");
+    this.iconSpan.classList.add("maplibregl-ctrl-icon");
+    this.toggleButton.appendChild(this.iconSpan);
+    this.iconSpan.style.setProperty("background-image", `url(${elevationIcon})`);
     this.toggleButton.addEventListener("click", this.toggleProfile.bind(this));
 
 
 
     const mapContainer = map.getContainer();
-    console.log(mapContainer);
 
     if (this.settings.container) {
       const tmpContainer = typeof this.settings.container === "string" ? document.getElementById(this.settings.container) : this.settings.container;
       if (!tmpContainer) throw new Error("The provided container is invalid");
       this.profileContainer = tmpContainer as HTMLDivElement;
+      console.log("this.profileContainer", this.profileContainer);
+      
     } else {
       this.profileContainer = document.createElement("div");
-      // this.profileContainer.style.setProperty("display", "none");
+      this.profileContainer.style.setProperty("display", "none");
       this.profileContainer.style.setProperty("background", "white");
       this.profileContainer.style.setProperty("z-index", "3");
       this.profileContainer.style.setProperty("position", "absolute");
@@ -75,6 +88,7 @@ export class ElevationProfileControl implements IControl {
         this.profileContainer.style.setProperty("height", "100%");
         this.profileContainer.style.setProperty("right", "0");
       }
+      mapContainer.appendChild(this.profileContainer);
     }
 
     if (this.settings.containerClass) {
@@ -82,42 +96,40 @@ export class ElevationProfileControl implements IControl {
     }
 
     
-    mapContainer.appendChild(this.profileContainer);
-
-    console.log(this.profileContainer);
-
     this.elevationProfileChart = new ElevationProfile(this.profileContainer, map.getSdkConfig().apiKey, this.settings);
-    
-    
-
+  
     return this.buttonContainer;
   }
-
-
 
 
   private toggleProfile() {
     if (!this.profileContainer) return;
 
     if (this.isProfileShown) {
-      console.log("Should hide profile");
-      this.profileContainer.style.setProperty("display", "none");
+      this.hideProfile();
     } else {
-      console.log("Should show profile");
-      this.profileContainer.style.setProperty("display", "inherit");
+      this.showProfile()
     }
+  }
 
-    this.isProfileShown = !this.isProfileShown;
 
+  showProfile() {
+    this.profileContainer?.style.setProperty("display", "inherit");
+    this.iconSpan?.style.setProperty("background-image", `url(${elevationFillIcon})`);
+    this.isProfileShown = true;
+  }
+
+  hideProfile() {
+    this.profileContainer?.style.setProperty("display", "none");
+    this.iconSpan?.style.setProperty("background-image", `url(${elevationIcon})`);
+    this.isProfileShown = false;
   }
 
 
 
 
 
-  onRemove(map: Map): void {
-    console.log("map", map);
-    
+  onRemove(_map: Map): void {    
     // remove button
     if (this.buttonContainer?.parentNode) {
       this.buttonContainer.parentNode.removeChild(this.buttonContainer);
