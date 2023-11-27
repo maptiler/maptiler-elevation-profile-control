@@ -101,7 +101,6 @@ export type CallbackData = {
   gradePercent: number;
 };
 
-
 export type ElevationProfileOptions = {
   /**
    * Color of the background of the chart
@@ -111,143 +110,167 @@ export type ElevationProfileOptions = {
    * Unit system to use.
    * If "metric", elevation and D+ will be in meters, distances will be in km.
    * If "imperial", elevation and D+ will be in feet, distances will be in miles.
-   * 
+   *
    * Default: "metric"
    */
   unit?: "metric" | "imperial";
   /**
    * Font size applied to axes labels and tooltip.
-   * 
+   *
    * Default: `12`
    */
-  fontSize?: number,
+  fontSize?: number;
   /**
    * If `true`, will force the computation of the elevation of the GeoJSON data provided to the `.setData()` method,
    * even if they already contain elevation (possibly from GPS while recording). If `false`, the elevation will only
    * be computed if missing from the positions.
-   * 
+   *
    * Default: `false`
    */
   forceComputeElevation?: boolean;
   /**
    * Display the elevation label along the vertical axis.
-   * 
+   *
    * Default: `true`
    */
   displayElevationLabels?: boolean;
   /**
    * Display the distance labels alon the horizontal axis.
-   * 
+   *
    * Default: `true`
    */
   displayDistanceLabels?: boolean;
   /**
    * Display the distance and elevation units alongside the labels.
-   * 
+   *
    * Default: `true`
    */
   displayUnits?: boolean;
   /**
    * Color of the elevation and distance labels.
-   * 
+   *
    * Default: `"#0009"` (partially transparent black)
    */
   labelColor?: string;
   /**
    * Color of the elevation profile line.
    * Can be `null` to not display the line and rely on the background color only.
-   * 
+   *
    * Default: `"#66ccff"`
    */
   profileLineColor?: string | null;
   /**
    * Width of the elevation profile line.
-   * 
+   *
    * Default: `1.5`
    */
   profileLineWidth?: number;
   /**
    * Color of the elevation profile background (below the profile line)
    * Can be `null` to not display any backgound color.
-   * 
+   *
    * Default: `"#66ccff22"`
    */
   profileBackgroundColor?: string | null;
   /**
    * Display the tooltip folowing the pointer.
-   * 
+   *
    * Default: `true`
    */
   displayTooltip?: boolean;
   /**
    * Color of the text inside the tooltip.
-   * 
+   *
    * Default: `"#fff"`
    */
   tooltipTextColor?: string;
   /**
    * Color of the tooltip background.
-   * 
+   *
    * Default: `"#000A"` (partially transparent black)
    */
   tooltipBackgroundColor?: string;
   /**
    * Display the distance information inside the tooltip if `true`.
-   * 
+   *
    * Default: `true`
    */
   tooltipDisplayDistance?: boolean;
   /**
    * Display the elevation information inside the tooltip if `true`.
-   * 
+   *
    * Default: `true`
    */
   tooltipDisplayElevation?: boolean;
   /**
    * Display the D+ (cumulated positive ascent) inside the tooltip if `true`.
-   * 
+   *
    * Default: `true`
    */
   tooltipDisplayDPlus?: boolean;
   /**
    * Display the slope grade in percentage inside the tooltip if `true`.
-   * 
+   *
    * Default: `true`
    */
   tooltipDisplayGrade?: boolean;
   /**
    * Display the distance grid lines (vertical lines matching the distance labels) if `true`.
-   * 
+   *
    * Default: `false`
    */
   displayDistanceGrid?: boolean;
   /**
    * Display the elevation grid lines (horizontal lines matching the elevation labels) if `true`.
-   * 
+   *
    * Default: `true`
    */
   displayElevationGrid?: boolean;
   /**
    * Color of the distance grid lines.
-   * 
+   *
    * Default: `"#0001"` (partially transparent black)
    */
   distanceGridColor?: string;
   /**
    * Color of the elevation drig lines.
-   * 
+   *
    * Default: `"#0001"` (partially transparent black)
    */
   elevationGridColor?: string;
   /**
+   * Padding at the top of the chart, in number of pixels.
+   *
+   * Default: `30`
+   */
+  paddingTop?: number;
+  /**
+   * Padding at the bottom of the chart, in number of pixels.
+   *
+   * Default: `10`
+   */
+  paddingBottom?: number;
+  /**
+   * Padding at the left of the chart, in number of pixels.
+   *
+   * Default: `10`
+   */
+  paddingLeft?: number;
+  /**
+   * Padding at the right of the chart, in number of pixels.
+   *
+   * Default: `10`
+   */
+  paddingRight?: number;
+  /**
    * Display the crosshair, a vertical line that follows the pointer, if `true`.
-   * 
+   *
    * Default: `true`
    */
   displayCrosshair?: boolean;
   /**
    * Color of the crosshair.
-   * 
+   *
    * Default: `"#0005"` (partially transparent black)
    */
   crosshairColor?: string;
@@ -255,19 +278,19 @@ export type ElevationProfileOptions = {
    * Callback function to call when the chart is zoomed or panned.
    * The argument `windowedLineString` is the GeoJSON LineString corresponding
    * to the portion of the route visible in the elevation chart.
-   * 
+   *
    * Default: `null`
    */
   onChangeView?: ((windowedLineString: LineString) => void) | null;
   /**
    * Callback function to call when the the elevation chart is clicked.
-   * 
+   *
    * Default: `null`
    */
   onClick?: ((data: CallbackData) => void) | null;
   /**
    * Callback function to call when the pointer is moving on the elevation chart.
-   * 
+   *
    * Default: `null`
    */
   onMove?: ((data: CallbackData) => void) | null;
@@ -299,6 +322,10 @@ const elevationProfileDefaultOptions: ElevationProfileOptions = {
   displayCrosshair: true,
   crosshairColor: "#0005",
   onChangeView: null,
+  paddingTop: 30,
+  paddingBottom: 10,
+  paddingLeft: 10,
+  paddingRight: 10,
   onClick: null,
   onMove: null,
 };
@@ -406,10 +433,10 @@ export class ElevationProfile {
       options: {
         layout: {
           padding: {
-            left: 10,
-            right: 10,
-            bottom: 10,
-            top: 30,
+            left: this.settings.paddingLeft,
+            right: this.settings.paddingRight,
+            bottom: this.settings.paddingBottom,
+            top: this.settings.paddingTop,
           },
         },
         onClick: (_e, item) => {
@@ -465,9 +492,11 @@ export class ElevationProfile {
               display: this.settings.displayDistanceLabels,
               color: this.settings.labelColor,
               callback: (value) => {
-                const roundedValue = (~~(value as number * 100))/100;
-                return this.settings.displayUnits ? `${roundedValue} ${distanceUnit}` : roundedValue;
-              }
+                const roundedValue = ~~((value as number) * 100) / 100;
+                return this.settings.displayUnits
+                  ? `${roundedValue} ${distanceUnit}`
+                  : roundedValue;
+              },
             },
           },
           y: {
@@ -480,9 +509,11 @@ export class ElevationProfile {
               display: this.settings.displayElevationLabels,
               color: this.settings.labelColor,
               callback: (value) => {
-                const roundedValue = (~~(value as number * 100))/100;
-                return this.settings.displayUnits ? `${roundedValue} ${elevationUnit}` : roundedValue;
-              }
+                const roundedValue = ~~((value as number) * 100) / 100;
+                return this.settings.displayUnits
+                  ? `${roundedValue} ${elevationUnit}`
+                  : roundedValue;
+              },
             },
             grid: {
               display: this.settings.displayElevationGrid,
@@ -615,13 +646,17 @@ export class ElevationProfile {
       });
 
       this.chart.canvas.addEventListener("mousemove", () => {
-        if (mouseDown && this.chart.options.plugins && this.chart.options.plugins.tooltip) {
+        if (
+          mouseDown &&
+          this.chart.options.plugins &&
+          this.chart.options.plugins.tooltip
+        ) {
           this.chart.options.plugins.tooltip.enabled = false;
           this.chart.update();
         }
       });
 
-      window.addEventListener("mouseup" , () => {
+      window.addEventListener("mouseup", () => {
         if (this.chart.options.plugins && this.chart.options.plugins.tooltip) {
           this.chart.options.plugins.tooltip.enabled = true;
           this.chart.update();
@@ -629,7 +664,6 @@ export class ElevationProfile {
         }
       });
     }
-
   }
 
   createWindowExtractLineString(): LineString {
