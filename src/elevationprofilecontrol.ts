@@ -7,11 +7,53 @@ import elevationIcon from "./images/elevation-icon.svg";
 import elevationFillIcon from "./images/elevation_fill-icon.svg";
 import { GeoJsonObject } from "geojson";
 
+/**
+ * Elevation profile control options
+ */
 export type ElevationProfileControlOptions = ElevationProfileOptions & {
-  container?: string | HTMLDivElement,
-  showButton?: boolean,
-  containerClass?: string,
+  /**
+   * If `true`, the elevation profile control will be visible as soon as it's ready.
+   * If `false`, a click on the control button (or a programmatic call to `.showProfile()`)
+   * will be neccesary to show the profile.
+   * 
+   * Default: `false`
+   */
+  visible?: boolean,
+  /**
+   * Size of the profile as a CSS rule.
+   * This `size` will be the `width` if the `.position` is "left" or "right",
+   * and will be the `height` if the `.position` is "top" or "bottom".
+   * 
+   * Default: `"30%"`
+   */
+  size?: string,
+  /**
+   * Position of the elevation profile chart when shown.
+   * 
+   * Default: `"botton"`
+   */
   position?: "top" | "left" | "right" | "bottom",
+  /**
+   * Show the control button. If can be handy to hide it, especially if the profile is displayed
+   * in a custom container and that its visiblity is managed by logic external to this control.
+   * 
+   * Default: `true`
+   */
+  showButton?: boolean,
+  /**
+   * A CSS class to add to the container. This is especially relevant when the options `.container` is not provided.
+   * Important: if provided, no styling is added by this control and even placement will have to be managed by external CSS.
+   * 
+   * Default: `""`
+   */
+  containerClass?: string,
+
+  /**
+   * DIV element to contain the control. 
+   * Important: if provided, no styling is added by this control.
+   * Default: automatically created inside the map container
+   */
+  container?: string | HTMLDivElement,
 };
 
 
@@ -53,41 +95,41 @@ export class ElevationProfileControl implements IControl {
     this.toggleButton.appendChild(this.iconSpan);
     this.iconSpan.style.setProperty("background-image", `url(${elevationIcon})`);
     this.toggleButton.addEventListener("click", this.toggleProfile.bind(this));
-
-
-
     const mapContainer = map.getContainer();
+    const size = this.settings.size ?? "30%";
 
     if (this.settings.container) {
       const tmpContainer = typeof this.settings.container === "string" ? document.getElementById(this.settings.container) : this.settings.container;
       if (!tmpContainer) throw new Error("The provided container is invalid");
       this.profileContainer = tmpContainer as HTMLDivElement;
-      console.log("this.profileContainer", this.profileContainer);
       
     } else {
       this.profileContainer = document.createElement("div");
       this.profileContainer.style.setProperty("display", "none");
-      this.profileContainer.style.setProperty("background", "white");
-      this.profileContainer.style.setProperty("z-index", "3");
-      this.profileContainer.style.setProperty("position", "absolute");
 
-      if (this.settings.position === "bottom" || !this.settings.position) {
-        this.profileContainer.style.setProperty("width", "100%");
-        this.profileContainer.style.setProperty("height", "30%");
-        this.profileContainer.style.setProperty("bottom", "0");
-      } else if (this.settings.position === "top") {
-        this.profileContainer.style.setProperty("width", "100%");
-        this.profileContainer.style.setProperty("height", "30%");
-        this.profileContainer.style.setProperty("top", "0");
-      } else if (this.settings.position === "left") {
-        this.profileContainer.style.setProperty("width", "30%");
-        this.profileContainer.style.setProperty("height", "100%");
-        this.profileContainer.style.setProperty("left", "0");
-      } else if (this.settings.position === "right") {
-        this.profileContainer.style.setProperty("width", "30%");
-        this.profileContainer.style.setProperty("height", "100%");
-        this.profileContainer.style.setProperty("right", "0");
+      if (!this.settings.containerClass){
+        this.profileContainer.style.setProperty("background", this.settings.backgroundColor ?? "white");
+        this.profileContainer.style.setProperty("position", "absolute");
+
+        if (this.settings.position === "bottom" || !this.settings.position) {
+          this.profileContainer.style.setProperty("width", "100%");
+          this.profileContainer.style.setProperty("height", size);
+          this.profileContainer.style.setProperty("bottom", "0");
+        } else if (this.settings.position === "top") {
+          this.profileContainer.style.setProperty("width", "100%");
+          this.profileContainer.style.setProperty("height", size);
+          this.profileContainer.style.setProperty("top", "0");
+        } else if (this.settings.position === "left") {
+          this.profileContainer.style.setProperty("width", size);
+          this.profileContainer.style.setProperty("height", "100%");
+          this.profileContainer.style.setProperty("left", "0");
+        } else if (this.settings.position === "right") {
+          this.profileContainer.style.setProperty("width", size);
+          this.profileContainer.style.setProperty("height", "100%");
+          this.profileContainer.style.setProperty("right", "0");
+        }
       }
+      
       mapContainer.appendChild(this.profileContainer);
     }
 
@@ -97,6 +139,10 @@ export class ElevationProfileControl implements IControl {
 
     
     this.elevationProfileChart = new ElevationProfile(this.profileContainer, map.getSdkConfig().apiKey, this.settings);
+
+    if (this.settings.visible) {
+      this.showProfile();
+    }
   
     return this.buttonContainer;
   }

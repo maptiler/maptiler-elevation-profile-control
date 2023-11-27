@@ -74,65 +74,217 @@ function geoJsonObjectToPositions(geoJson: GeoJsonObject): Position[] {
   return positionsGroups.flat();
 }
 
+/**
+ * Event data to `onMove` and `onClick` callback
+ */
 export type CallbackData = {
-  positions: Position;
+  /**
+   * The position as `[lon, lat, elevation]`.
+   * Elevation will be in meters if the component has been set with the unit "metric" (default)
+   * of in feet if the unit is "imperial".
+   */
+  position: Position;
+  /**
+   * The distance from the start of the route. In km if the component has been set with the unit "metric" (default)
+   * of in miles if the unit is "imperial".
+   */
   distance: number;
+  /**
+   * Cumulated positive elevation from the begining of the route up to this location.
+   * In meters if the component has been set with the unit "metric" (default)
+   * of in feet if the unit is "imperial".
+   */
   dPlus: number;
+  /**
+   * Slope grade in percentage (1% being a increase of 1m on a 100m distance)
+   */
   gradePercent: number;
 };
 
+
 export type ElevationProfileOptions = {
+  /**
+   * Color of the background of the chart
+   */
   backgroundColor?: string | null;
-
+  /**
+   * Unit system to use.
+   * If "metric", elevation and D+ will be in meters, distances will be in km.
+   * If "imperial", elevation and D+ will be in feet, distances will be in miles.
+   * 
+   * Default: "metric"
+   */
   unit?: "metric" | "imperial";
-
-  forceFetchElevation?: boolean;
-
-  displayElevationTicks?: boolean;
-  displayDistanceTicks?: boolean;
-  displayTickUnit?: boolean;
-  tickTextColor?: string;
-
+  /**
+   * Font size applied to axes labels and tooltip.
+   * 
+   * Default: `12`
+   */
+  fontSize?: number,
+  /**
+   * If `true`, will force the computation of the elevation of the GeoJSON data provided to the `.setData()` method,
+   * even if they already contain elevation (possibly from GPS while recording). If `false`, the elevation will only
+   * be computed if missing from the positions.
+   * 
+   * Default: `false`
+   */
+  forceComputeElevation?: boolean;
+  /**
+   * Display the elevation label along the vertical axis.
+   * 
+   * Default: `true`
+   */
+  displayElevationLabels?: boolean;
+  /**
+   * Display the distance labels alon the horizontal axis.
+   * 
+   * Default: `true`
+   */
+  displayDistanceLabels?: boolean;
+  /**
+   * Display the distance and elevation units alongside the labels.
+   * 
+   * Default: `true`
+   */
+  displayUnits?: boolean;
+  /**
+   * Color of the elevation and distance labels.
+   * 
+   * Default: `"#0009"` (partially transparent black)
+   */
+  labelColor?: string;
+  /**
+   * Color of the elevation profile line.
+   * Can be `null` to not display the line and rely on the background color only.
+   * 
+   * Default: `"#66ccff"`
+   */
   profileLineColor?: string | null;
+  /**
+   * Width of the elevation profile line.
+   * 
+   * Default: `1.5`
+   */
   profileLineWidth?: number;
+  /**
+   * Color of the elevation profile background (below the profile line)
+   * Can be `null` to not display any backgound color.
+   * 
+   * Default: `"#66ccff22"`
+   */
   profileBackgroundColor?: string | null;
-
+  /**
+   * Display the tooltip folowing the pointer.
+   * 
+   * Default: `true`
+   */
   displayTooltip?: boolean;
+  /**
+   * Color of the text inside the tooltip.
+   * 
+   * Default: `"#fff"`
+   */
   tooltipTextColor?: string;
+  /**
+   * Color of the tooltip background.
+   * 
+   * Default: `"#000A"` (partially transparent black)
+   */
   tooltipBackgroundColor?: string;
+  /**
+   * Display the distance information inside the tooltip if `true`.
+   * 
+   * Default: `true`
+   */
   tooltipDisplayDistance?: boolean;
+  /**
+   * Display the elevation information inside the tooltip if `true`.
+   * 
+   * Default: `true`
+   */
   tooltipDisplayElevation?: boolean;
+  /**
+   * Display the D+ (cumulated positive ascent) inside the tooltip if `true`.
+   * 
+   * Default: `true`
+   */
   tooltipDisplayDPlus?: boolean;
+  /**
+   * Display the slope grade in percentage inside the tooltip if `true`.
+   * 
+   * Default: `true`
+   */
   tooltipDisplayGrade?: boolean;
-
+  /**
+   * Display the distance grid lines (vertical lines matching the distance labels) if `true`.
+   * 
+   * Default: `false`
+   */
   displayDistanceGrid?: boolean;
+  /**
+   * Display the elevation grid lines (horizontal lines matching the elevation labels) if `true`.
+   * 
+   * Default: `true`
+   */
   displayElevationGrid?: boolean;
+  /**
+   * Color of the distance grid lines.
+   * 
+   * Default: `"#0001"` (partially transparent black)
+   */
   distanceGridColor?: string;
+  /**
+   * Color of the elevation drig lines.
+   * 
+   * Default: `"#0001"` (partially transparent black)
+   */
   elevationGridColor?: string;
-
+  /**
+   * Display the crosshair, a vertical line that follows the pointer, if `true`.
+   * 
+   * Default: `true`
+   */
   displayCrosshair?: boolean;
+  /**
+   * Color of the crosshair.
+   * 
+   * Default: `"#0005"` (partially transparent black)
+   */
   crosshairColor?: string;
-
+  /**
+   * Callback function to call when the chart is zoomed or panned.
+   * The argument `windowedLineString` is the GeoJSON LineString corresponding
+   * to the portion of the route visible in the elevation chart.
+   * 
+   * Default: `null`
+   */
   onChangeView?: ((windowedLineString: LineString) => void) | null;
+  /**
+   * Callback function to call when the the elevation chart is clicked.
+   * 
+   * Default: `null`
+   */
   onClick?: ((data: CallbackData) => void) | null;
+  /**
+   * Callback function to call when the pointer is moving on the elevation chart.
+   * 
+   * Default: `null`
+   */
   onMove?: ((data: CallbackData) => void) | null;
 };
 
 const elevationProfileDefaultOptions: ElevationProfileOptions = {
   backgroundColor: null,
   unit: "metric",
-
-  forceFetchElevation: false,
-
-  displayElevationTicks: true,
-  displayDistanceTicks: true,
-  displayTickUnit: true,
-  tickTextColor: "#0009",
-
+  fontSize: 12,
+  forceComputeElevation: false,
+  displayElevationLabels: true,
+  displayDistanceLabels: true,
+  displayUnits: true,
+  labelColor: "#0009",
   profileLineColor: "#66ccff",
   profileLineWidth: 1.5,
   profileBackgroundColor: "#66ccff22",
-
   displayTooltip: true,
   tooltipTextColor: "#fff",
   tooltipBackgroundColor: "#000A",
@@ -140,20 +292,20 @@ const elevationProfileDefaultOptions: ElevationProfileOptions = {
   tooltipDisplayElevation: true,
   tooltipDisplayDPlus: true,
   tooltipDisplayGrade: true,
-
   displayDistanceGrid: false,
   displayElevationGrid: true,
   distanceGridColor: "#0001",
   elevationGridColor: "#0001",
-
   displayCrosshair: true,
   crosshairColor: "#0005",
-
   onChangeView: null,
   onClick: null,
   onMove: null,
 };
 
+/**
+ * Elevation profile chart
+ */
 export class ElevationProfile {
   private canvas: HTMLCanvasElement;
   private settings: ElevationProfileOptions;
@@ -166,8 +318,17 @@ export class ElevationProfile {
   private grade: number[] = [];
 
   constructor(
+    /**
+     * DIV element to place the chart into
+     */
     container: HTMLDivElement | string,
+    /**
+     * MapTiler API key. Essential for computing the elevation when missing or forced
+     */
     apiKey: string,
+    /**
+     * Options
+     */
     options: ElevationProfileOptions = {}
   ) {
     // Set API key
@@ -210,7 +371,7 @@ export class ElevationProfile {
 
     const distanceUnit = this.settings.unit === "imperial" ? "mi" : "km";
     const elevationUnit = this.settings.unit === "imperial" ? "ft" : "m";
-
+    Chart.defaults.font.size = this.settings.fontSize;
     this.chart = new Chart<"line", Array<number>, number>(this.canvas, {
       type: "line",
 
@@ -259,7 +420,7 @@ export class ElevationProfile {
 
             this.settings.onClick.apply(this, [
               {
-                positions: this.elevatedPositionsAdjustedUnit[i],
+                position: this.elevatedPositionsAdjustedUnit[i],
                 distance: this.cumulatedDistanceAdjustedUnit[i],
                 dPlus: this.cumulatedDPlus[i],
                 gradePercent: this.grade[i],
@@ -277,7 +438,7 @@ export class ElevationProfile {
 
             this.settings.onMove.apply(this, [
               {
-                positions: this.elevatedPositionsAdjustedUnit[i],
+                position: this.elevatedPositionsAdjustedUnit[i],
                 distance: this.cumulatedDistanceAdjustedUnit[i],
                 dPlus: this.cumulatedDPlus[i],
                 gradePercent: this.grade[i],
@@ -301,8 +462,12 @@ export class ElevationProfile {
             },
             ticks: {
               align: "inner",
-              display: this.settings.displayElevationTicks,
-              color: this.settings.tickTextColor,
+              display: this.settings.displayDistanceLabels,
+              color: this.settings.labelColor,
+              callback: (value) => {
+                const roundedValue = (~~(value as number * 100))/100;
+                return this.settings.displayUnits ? `${roundedValue} ${distanceUnit}` : roundedValue;
+              }
             },
           },
           y: {
@@ -312,8 +477,12 @@ export class ElevationProfile {
             ticks: {
               mirror: true,
               align: "end",
-              display: this.settings.displayDistanceTicks,
-              color: this.settings.tickTextColor,
+              display: this.settings.displayElevationLabels,
+              color: this.settings.labelColor,
+              callback: (value) => {
+                const roundedValue = (~~(value as number * 100))/100;
+                return this.settings.displayUnits ? `${roundedValue} ${elevationUnit}` : roundedValue;
+              }
             },
             grid: {
               display: this.settings.displayElevationGrid,
@@ -423,19 +592,6 @@ export class ElevationProfile {
 
       plugins: [
         {
-          id: "customCanvasBackgroundColor",
-          beforeDraw: (chart) => {
-            if (!this.settings.backgroundColor) return;
-            const { ctx } = chart;
-            ctx.save();
-            ctx.globalCompositeOperation = "destination-over";
-            ctx.fillStyle = this.settings.backgroundColor;
-            ctx.fillRect(0, 0, chart.width, chart.height);
-            ctx.restore();
-          },
-        },
-
-        {
           id: "customZoomEvent",
           afterDataLimits: () => {
             if (typeof this.settings.onChangeView !== "function") return;
@@ -525,7 +681,7 @@ export class ElevationProfile {
 
     // We can force to fetch the elevations, or it will anyways if one or more positions do not have elevation value
     if (
-      this.settings.forceFetchElevation ||
+      this.settings.forceComputeElevation ||
       positions.some((pos) => pos.length === 2)
     ) {
       // Fetch the elevations
