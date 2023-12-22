@@ -28,6 +28,11 @@ export default defineConfig({
       // into your library
       external: [
         "@maptiler/sdk",
+        "chart.js",
+        "chartjs-plugin-crosshair",
+        "chartjs-plugin-zoom",
+        "events",
+        "quick-lru"
       ],
       output: {
         // Provide global variables to use in the UMD build
