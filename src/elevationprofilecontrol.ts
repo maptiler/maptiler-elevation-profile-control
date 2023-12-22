@@ -69,6 +69,8 @@ export class ElevationProfileControl implements IControl {
   private elevationProfileChart?: ElevationProfile;
 
   constructor(options: ElevationProfileControlOptions = {}) {
+    if (typeof window === "undefined")
+      throw new Error("This pluggin must be mounted client-side");
     this.settings = { ...options };
   }
 
@@ -193,7 +195,7 @@ export class ElevationProfileControl implements IControl {
     this.isProfileShown = false;
   }
 
-  onRemove(_map: Map): void {
+  onRemove(): void {
     // remove button
     if (this.buttonContainer?.parentNode) {
       this.buttonContainer.parentNode.removeChild(this.buttonContainer);

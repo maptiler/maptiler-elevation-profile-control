@@ -1,13 +1,11 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import glsl from 'vite-plugin-glsl';
 
 const isProduction = process.env.NODE_ENV === "production";
 
 const plugins = [
   dts({insertTypesEntry: true}),
-  glsl({compress: isProduction}),
 ];
 
 export default defineConfig({
@@ -30,7 +28,6 @@ export default defineConfig({
       // into your library
       external: [
         "@maptiler/sdk",
-        "@maptiler/client",
       ],
       output: {
         // Provide global variables to use in the UMD build

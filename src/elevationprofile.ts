@@ -15,7 +15,7 @@ import {
   CrosshairPlugin,
 } from "chartjs-plugin-crosshair";
 
-import { elevation, math, config } from "@maptiler/client";
+import { elevation, math, config } from "@maptiler/sdk";
 
 const FEET_PER_METER = 3.28084;
 const MILES_PER_METER = 0.000621371;
