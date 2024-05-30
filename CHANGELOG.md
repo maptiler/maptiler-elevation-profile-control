@@ -5,7 +5,7 @@
 ### Bug Fixes
 ### Others
 
-## 2.0.
+## 2.0.0
 ### Others
 - Updated with MapTiler SDK v2
 
