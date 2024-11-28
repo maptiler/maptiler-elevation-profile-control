@@ -1,4 +1,4 @@
-import {
+import type {
   GeoJsonObject,
   GeometryObject,
   LineString,
@@ -657,7 +657,7 @@ export class ElevationProfile {
       });
 
       window.addEventListener("mouseup", () => {
-        if (this.chart.options.plugins && this.chart.options.plugins.tooltip) {
+        if (this.chart.options.plugins?.tooltip) {
           this.chart.options.plugins.tooltip.enabled = true;
           this.chart.update();
           mouseDown = false;
@@ -769,8 +769,8 @@ export class ElevationProfile {
       this.elevatedPositionsAdjustedUnit = this.elevatedPositions;
     }
 
-    let minElevation = +Infinity;
-    let maxElevation = -Infinity;
+    let minElevation = Number.POSITIVE_INFINITY;
+    let maxElevation = Number.NEGATIVE_INFINITY;
 
     for (let i = 0; i < this.elevatedPositionsAdjustedUnit.length; i += 1) {
       if (this.elevatedPositionsAdjustedUnit[i][2] < minElevation) {
@@ -789,8 +789,7 @@ export class ElevationProfile {
     );
 
     if (
-      this.chart.options.scales &&
-      this.chart.options.scales.x &&
+      this.chart.options.scales?.x &&
       this.chart.options.scales.y
     ) {
       this.chart.options.scales.x.min = this.cumulatedDistanceAdjustedUnit[0];
