@@ -1,6 +1,6 @@
 {
   "name": "@maptiler/elevation-profile-control",
-  "version": "2.0.0-rc.1",
+  "version": "3.0.0-rc.1",
   "description": "Elevation profile control for MapTiler SDK",
   "module": "dist/maptiler-elevation-profile-control.js",
   "types": "dist/maptiler-elevation-profile-control.d.ts",
