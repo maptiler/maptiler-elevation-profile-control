@@ -788,10 +788,7 @@ export class ElevationProfile {
       (pos) => pos[2]
     );
 
-    if (
-      this.chart.options.scales?.x &&
-      this.chart.options.scales.y
-    ) {
+    if (this.chart.options.scales?.x && this.chart.options.scales.y) {
       this.chart.options.scales.x.min = this.cumulatedDistanceAdjustedUnit[0];
       this.chart.options.scales.x.max =
         this.cumulatedDistanceAdjustedUnit[

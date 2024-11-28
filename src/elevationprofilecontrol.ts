@@ -1,5 +1,8 @@
 import type { ControlPosition, IControl, Map as MapSDK } from "@maptiler/sdk";
-import { ElevationProfile, type ElevationProfileOptions } from "./elevationprofile";
+import {
+  ElevationProfile,
+  type ElevationProfileOptions,
+} from "./elevationprofile";
 import { isUUID } from "./tools";
 // @ts-ignore
 import elevationIcon from "./images/elevation-icon.svg";
