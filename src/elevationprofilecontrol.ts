@@ -10,6 +10,8 @@ import elevationIcon from "./images/elevation-icon.svg";
 import elevationFillIcon from "./images/elevation_fill-icon.svg";
 import type { GeoJsonObject } from "geojson";
 
+import { registerTelemetry } from "./telemetry";
+
 /**
  * Elevation profile control options
  */
