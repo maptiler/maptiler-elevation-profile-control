@@ -50,7 +50,7 @@
     "vite-svg-loader": "^5.1.0"
   },
   "dependencies": {
-    "@maptiler/sdk": "^3.0.0-rc.2",
+    "@maptiler/sdk": "^3.0.0-rc.4",
     "@types/events": "^3.0.0",
     "@types/geojson": "^7946.0.13",
     "chart.js": "^4.4.0",

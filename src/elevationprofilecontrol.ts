@@ -13,24 +13,6 @@ import type { GeoJsonObject } from "geojson";
 import packagejson from "../package.json";
 
 /**
- * TODO: Remove when telemetry will be implemented
- */
-declare module "@maptiler/sdk" {
-  interface Map {
-    telemetry: {
-      registerModule: (name: string, version: string) => void;
-    };
-  }
-}
-
-Map.prototype.telemetry = {
-  registerModule: (name: string, version: string) => {
-    console.log(`Telemetry module registered: ${name} ${version}`);
-  },
-};
-/* *** */
-
-/**
  * Elevation profile control options
  */
 export type ElevationProfileControlOptions = ElevationProfileOptions & {
@@ -101,7 +83,7 @@ export class ElevationProfileControl implements IControl {
     return this.profileContainer;
   }
 
-  onAdd(map: Map): HTMLElement {
+  onAdd(map: MapSDK): HTMLElement {
     map.telemetry.registerModule(packagejson.name, packagejson.version);
 
     this.map = map;
