@@ -1,6 +1,6 @@
 {
   "name": "@maptiler/elevation-profile-control",
-  "version": "3.0.0-rc.1",
+  "version": "3.0.0-rc.2",
   "description": "Elevation profile control for MapTiler SDK",
   "module": "dist/maptiler-elevation-profile-control.js",
   "types": "dist/maptiler-elevation-profile-control.d.ts",
@@ -50,7 +50,7 @@
     "vite-svg-loader": "^5.1.0"
   },
   "dependencies": {
-    "@maptiler/sdk": "^3.0.0-rc.4",
+    "@maptiler/sdk": "^3.0.0-rc.5",
     "@types/events": "^3.0.0",
     "@types/geojson": "^7946.0.13",
     "chart.js": "^4.4.0",
