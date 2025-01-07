@@ -1,15 +1,12 @@
 # MapTiler Client Changelog
 
-## DEVEL
-### New Features
-### Bug Fixes
-### Others
+## 3.0.0
+### Other
+- Update with MapTiler SDK v3 (globe)
 
 ## 2.0.0
 ### Others
 - Updated with MapTiler SDK v2
-
-
 
 ## 1.0.1
 ### New Features

@@ -1,11 +1,16 @@
-import { ControlPosition, IControl, Map } from "@maptiler/sdk";
-import { ElevationProfile, ElevationProfileOptions } from "./elevationprofile";
+import type { ControlPosition, IControl, Map as MapSDK } from "@maptiler/sdk";
+import {
+  ElevationProfile,
+  type ElevationProfileOptions,
+} from "./elevationprofile";
 import { isUUID } from "./tools";
 // @ts-ignore
 import elevationIcon from "./images/elevation-icon.svg";
 // @ts-ignore
 import elevationFillIcon from "./images/elevation_fill-icon.svg";
-import { GeoJsonObject } from "geojson";
+import type { GeoJsonObject } from "geojson";
+
+import packagejson from "../package.json";
 
 /**
  * Elevation profile control options
@@ -57,7 +62,7 @@ export type ElevationProfileControlOptions = ElevationProfileOptions & {
 };
 
 export class ElevationProfileControl implements IControl {
-  private map?: Map;
+  private map?: MapSDK;
   private buttonContainer?: HTMLDivElement;
   private toggleButton?: HTMLButtonElement;
   private isProfileShown = false;
@@ -78,7 +83,9 @@ export class ElevationProfileControl implements IControl {
     return this.profileContainer;
   }
 
-  onAdd(map: Map): HTMLElement {
+  onAdd(map: MapSDK): HTMLElement {
+    map.telemetry.registerModule(packagejson.name, packagejson.version);
+
     this.map = map;
 
     this.buttonContainer = document.createElement("div");

@@ -113,3 +113,4 @@ dist/
 docs/
 
 examples/private_*
+tmp_*
