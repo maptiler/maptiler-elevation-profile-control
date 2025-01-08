@@ -3,38 +3,31 @@ import { defineConfig } from 'vite';
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const plugins = [];
-
-
 export default defineConfig({
   mode: isProduction ? "production" : "development",
   build: {
     outDir: "build",
     minify: isProduction,
-    sourcemap: !isProduction,
+    sourcemap: true,
     lib: {
-      // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/maptiler-elevation-profile-control.ts'),
       name: 'maptilerelevationprofilecontrol',
-      // the proper extensions will be added
-      fileName: (format, entryName) => `${entryName}.${format}.js`,
+      fileName: (format, entryName) => `${entryName}.${format}.min.js`,
       formats: ['umd'],
     },
     
     rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
+      // make sure to externalize deps that shouldn't be bundled into your library
       external: [
         "@maptiler/sdk"
       ],
       output: {
-        // Provide global variables to use in the UMD build
-        // for externalized deps
+        // Provide global variables to use in the UMD build for externalized deps
         globals: {
           "@maptiler/sdk": "maptilersdk",
         },
       },
     },
   },
-  plugins,
-})
+  plugins: [],
+});

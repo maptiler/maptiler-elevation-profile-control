@@ -10,7 +10,7 @@ import elevationIcon from "./images/elevation-icon.svg";
 import elevationFillIcon from "./images/elevation_fill-icon.svg";
 import type { GeoJsonObject } from "geojson";
 
-import packagejson from "../package.json";
+import { name, version } from "../package.json";
 
 /**
  * Elevation profile control options
@@ -84,7 +84,7 @@ export class ElevationProfileControl implements IControl {
   }
 
   onAdd(map: MapSDK): HTMLElement {
-    map.telemetry.registerModule(packagejson.name, packagejson.version);
+    map.telemetry.registerModule(name, version);
 
     this.map = map;
 
