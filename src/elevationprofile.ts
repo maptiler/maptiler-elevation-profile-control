@@ -733,21 +733,18 @@ export class ElevationProfile {
     this.grade = [];
     let cumulatedDPlus = 0;
 
-    for (let i = 0; i < this.elevatedPositions.length; i += 1) {
+    this.cumulatedDPlus.push(0);
+    for (let i = 1; i < this.elevatedPositions.length; i += 1) {
       const elevation = this.elevatedPositions[i][2];
-
-      if (i > 1) {
-        const elevationPrevious = this.elevatedPositions[i - 1][2];
-        const elevationDelta = elevation - elevationPrevious;
-        const segmentDistance =
-          this.cumulatedDistance[i] - this.cumulatedDistance[i - 1];
-        cumulatedDPlus += Math.max(0, elevationDelta);
-        this.cumulatedDPlus.push(cumulatedDPlus);
-        this.grade.push(((elevationDelta / segmentDistance) * 1000) / 10);
-      }
+      const elevationPrevious = this.elevatedPositions[i - 1][2];
+      const elevationDelta = elevation - elevationPrevious;
+      const segmentDistance =
+        this.cumulatedDistance[i] - this.cumulatedDistance[i - 1];
+      cumulatedDPlus += Math.max(0, elevationDelta);
+      this.cumulatedDPlus.push(cumulatedDPlus);
+      this.grade.push(((elevationDelta / segmentDistance) * 1000) / 10);
     }
     this.grade.push(0);
-    this.cumulatedDPlus.push(cumulatedDPlus);
 
     // Conversion of distance to miles and elevation to feet
     if (this.settings.unit === "imperial") {
