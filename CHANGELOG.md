@@ -1,5 +1,9 @@
 # MapTiler Client Changelog
 
+## 3.0.2
+### Bug Fixes
+- Fixes D+ and Grade calculations to fix tooltip error on last datapoint
+
 ## 3.0.0
 ### Other
 - Update with MapTiler SDK v3 (globe)
