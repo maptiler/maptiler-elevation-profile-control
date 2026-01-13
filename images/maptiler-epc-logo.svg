@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="278.28799"
+   width="348.45233"
    height="40.55743"
-   viewBox="0 0 278.28799 40.55743"
+   viewBox="0 0 348.45233 40.55743"
    version="1.1"
    xml:space="preserve"
    style="clip-rule:evenodd;fill-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2"
    id="svg45"
-   sodipodi:docname="maptiler-epc-logo copy.svg"
+   sodipodi:docname="maptiler-epc-logo.svg"
    inkscape:version="1.4.2 (2aeb623e1d, 2025-05-12)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,7 +24,7 @@
    inkscape:deskcolor="#d1d1d1"
    showgrid="true"
    inkscape:zoom="4.2329193"
-   inkscape:cx="183.32502"
+   inkscape:cx="238.13353"
    inkscape:cy="23.506236"
    inkscape:window-width="1470"
    inkscape:window-height="891"
@@ -34,8 +34,8 @@
    inkscape:current-layer="g44"><inkscape:grid
      id="grid45"
      units="px"
-     originx="0"
-     originy="0"
+     originx="-6.3837824e-14"
+     originy="-2.7307972e-07"
      spacingx="0.99999998"
      spacingy="0.99999999"
      empcolor="#0099e5"
@@ -131,7 +131,7 @@
    transform="matrix(0.635618,0,0,0.635618,129.29493,-0.71638642)"
    id="g44">
             <g
-   transform="matrix(2.85052,0,0,1,-601.107,52.2536)"
+   transform="matrix(4.6301218,0,0,1.6315871,-1012.3371,41.639544)"
    id="g17">
                 <path
    d="m 271.712,9.663456 h -40.055 c -0.434,0 -0.786,1.005 -0.786,2.242 v 10.42 c 0,1.22 0.347,2.211 0.775,2.211 h 38.736 z"
@@ -140,7 +140,7 @@
    sodipodi:nodetypes="csssscc" />
             </g>
             <g
-   transform="matrix(0.364213,0,0,0.364213,-127.352,49.218456)"
+   transform="matrix(0.591594,0,0,0.59424524,-242.81318,36.687442)"
    id="g34">
                 <g
    transform="matrix(30.2678,0,0,30.2678,514.098,66.0889)"
@@ -281,13 +281,13 @@
    transform="matrix(-1.61476,0,0,-1.14744,607.208,92.584856)"
    id="g35">
                 <path
-   d="m 269.473,12.81 h -36.561 c -1.127,0 -2.041,1.287 -2.041,2.873 v 9.125 c 0,1.587 0.915,2.875 2.043,2.875 h 33.856 z"
-   style="fill:#009f20"
+   d="M 225.21092,7.9512439 H 165.8246 c -1.8306,0 -3.31521,2.0998531 -3.31521,4.6875501 v 14.888232 c 0,2.589329 1.48624,4.690813 3.31846,4.690813 h 54.99257 z"
+   style="fill:#009f20;stroke-width:1.62794"
    id="path34"
    sodipodi:nodetypes="csssscc" />
             </g>
             <g
-   transform="matrix(0.364213,0,0,0.364213,-8.71086,49.218456)"
+   transform="matrix(0.591594,0,0,0.59424524,-50.103468,36.687442)"
    id="g43">
                 <g
    transform="matrix(30.2678,0,0,30.2678,514.098,66.0889)"
