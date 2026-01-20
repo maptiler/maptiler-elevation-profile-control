@@ -1,50 +1,99 @@
-<p align="center">
-<a href="https://docs.maptiler.com/sdk-js/">official page →</a><br>
-  <img src="images/maptiler-epc-logo.svg" width="400px">
-</p>
-
-<p align="center" style="color: #AAA">
-  Elevation profile control for MapTiler SDK, with elevation data fueled by <a href="https://www.maptiler.com/cloud/">MapTiler Cloud</a>.<br>
-</p>
-
-<p align="center">
-  <img src="images/JS-logo.svg" width="20px">
-  <img src="images/TS-logo.svg" width="20px">
-  <img src="https://img.shields.io/npm/v/@maptiler/elevation-profile-control"></img>
-  <img src="https://img.shields.io/twitter/follow/maptiler?style=social"></img>
-</p>
+<img src="images/maptiler-epc-logo.svg" alt="Company Logo" height="32"/>
 
 # Elevation Profile Control
+
 The elevation profile control is a super easy way to show the elevation profile of any GeoJSON trace, whether it's a `LineString`, a `MultiLineString`, whether or not it's encapsulated in a `Feature` or `FeatureCollection`. In case multiple features are eligible in the provided dataset, they will be concatenated and displayed together as a unique route.
 
-It can be customized in many ways and is compatible with both **metric** and **imperial** units. Yet, it comes with many built-in defaults, and does not need a lot to look nice! Here is how the most minimalist setup looks like, featuring **zooming** and **panning** of the profile:
+It can be customized in many ways and is compatible with both **metric** and **imperial** units. Yet, it comes with many built-in defaults, and does not need a lot to look nice! Here is how the most minimalist setup looks like, featuring **zooming** and **panning** of the profile.
 
-![](images/basic.png)
+[![](https://img.shields.io/npm/v/@maptiler/elevation-profile-control?style=for-the-badge&labelColor=D3DBEC&color=f2f6ff&logo=npm&logoColor=333359)](https://www.npmjs.com/package/@maptiler/elevation-profile-control) ![](https://img.shields.io/badge/-white?style=for-the-badge&logo=javascript)![](https://img.shields.io/badge/-white?style=for-the-badge&logo=typescript)
 
-## Usage
-Install it:
-```bash
-npm install @maptiler/elevation-profile-control
+---
+
+📖 [Documentation](https://docs.maptiler.com/sdk-js/modules/elevation-profile/) &nbsp; 📦 [NPM Package](https://www.npmjs.com/package/@maptiler/elevation-profile-control) &nbsp; 🌐 [Website](https://docs.maptiler.com/sdk-js/modules/elevation-profile/) &nbsp; 🔑 [Get API Key](https://cloud.maptiler.com/account/keys/)
+
+---
+<br>
+
+<details> <summary><b>Table of Contents</b></summary>
+<ul>
+<li><a href="#-installation">Installation</a></li>
+<li><a href="#-basic-usage">Basic Usage</a></li>
+<li><a href="#-related-examples">Examples</a></li>
+<li><a href="#-api-reference">API Reference</a></li>
+<li><a href="#-support">Support</a></li>
+<li><a href="#-contributing">Contributing</a></li>
+<li><a href="#-license">License</a></li>
+<li><a href="#-acknowledgements">Acknowledgements</a></li>
+</ul>
+</details>
+
+<p align="center">   <img src="images/basic.png" alt="Demo Screenshot" width="80%"/>  <br />  <a href="https://docs.maptiler.com/sdk-js/examples/elevation-profile-control-simple/">See live interactive demo</a> </p>
+<br>
+
+## 📦 Installation
+
+```shell
+npm install @maptiler @maptiler/elevation-profile-control
 ```
 
-Import it:
-```ts
-import { ElevationProfileControl } from "@maptiler/elevation-profile-control";
+<br>
+
+## 🚀 Basic Usage
+
+``` js
+import { Map, MapStyle, config, helpers } from '@maptiler/sdk';
+import '@maptiler/sdk/dist/maptiler-sdk.css';
+import { ElevationProfileControl } from '@maptiler/elevation-profile-control';
+
+config.apiKey = 'YOUR_MAPTILER_API_KEY_HERE';
+const map = new Map({
+  container: 'map', // container's id or the HTML element in which the SDK will render the map
+  style: MapStyle.OUTDOOR,
+  center: [0.57705, 42.68311], // starting position [lng, lat]
+  zoom: 12.22, // starting zoom
+});
+
+map.on('ready', () => {
+  helpers.addPolyline(map, {
+    data: 'YOUR_MAPTILER_DATASET_ID_HERE', //from a URL or a MapTiler Data UUID
+    lineColor: '#66f',
+    lineWidth: 4,
+    outline: true,
+    outlineWidth: 2
+  });
+
+  // Create an instance
+  const epc = new ElevationProfileControl({
+    visible: true
+  });
+
+  // Add it to your map
+  map.addControl(epc);
+
+  // Add some data (from a URL or a MapTiler Data UUID)
+  epc.setData('YOUR_MAPTILER_DATASET_ID_HERE');
+});
 ```
 
-Instanciate it and add it to a `Map` instance, most likely inside a *map* `"load"` event callback:
-```ts
-// Create an instance (with no options)
-const epc = new ElevationProfileControl();
+<br>
 
-// Add it to your map
-map.addControl(epc);
+## 💡 Related Examples
 
-// Add some data (from a URL or a MapTiler Data UUID)
-epc.setData("my-route.geojson");
-```
+- [Show the trace position with Elevation profile control](https://docs.maptiler.com/sdk-js/examples/elevation-profile-control-marker/)
+- [How to display GPX track elevation profile](https://docs.maptiler.com/sdk-js/examples/elevation-profile-control-gpx/)
+- [Customize Elevation profile control](https://docs.maptiler.com/sdk-js/examples/elevation-profile-control-customized/)
 
-## Main Features
+Check out the full list of [MapTiler examples](https://docs.maptiler.com/sdk-js/examples/?q=elevation+profile)
+
+<br>
+
+## 📘 API Reference
+
+For detailed guides, API reference, and advanced examples, visit our comprehensive documentation:
+
+[API documentation](https://docs.maptiler.com/sdk-js/modules/elevation-profile/api/api-reference/)
+
 ### Styling
 As many MapTiler SDK (or MapLibre) controls, it is made available with a button on top of the map. By default, the elevation profile chart will also be displayed on top of the map. Yet, you can customize how you want to achieve that.
 
@@ -124,10 +173,10 @@ For the sake of a better-looking example, the example also comes with some custo
 
 As you can see, the option `showButton` is `false` and as a result, the control button is not showing on top of the map. This can be convenient in such case because we can imagine the container being fully managed at application level.
 
-## Computing Elevation
+### Computing Elevation
 In some cases, the route data passed to the method `.setData()` will contain only *longitude* and *latitude* information, but no elevation. In that case, the control will automatically fetch and compute the elevation data prior to display the profile. Under the hood, this operation is performed by the [MapTiler Client library](https://docs.maptiler.com/client-js/).
 
-## Events
+### Events
 There are three events available that can be defined in the constructor options:
 - `onMove` when moving the pointer on top of the profile
 - `onClick` when clicking on the profile
@@ -138,7 +187,7 @@ With the event `onMove` we can easily display a marker moving on top of the map.
 
 (Note: this can easily be achieved with the *Polyline Helper* available in the MapTiler SDK)
 
-## All the options
+### All the options
 <details>
   <summary>Know more about ElevationProfileControl constructor options</summary>
 
@@ -416,9 +465,54 @@ With `CallbackData` being:
 ```
 </details>
 
-Find more usage examples in [the documentation](https://docs.maptiler.com/sdk-js/examples/).
+<br>
 
+## 💬 Support
 
+- 📚 [Documentation](https://docs.maptiler.com/sdk-js/modules/elevation-profile/) - Comprehensive guides and API reference
+- ✉️ [Contact us](https://maptiler.com/contact) - Get in touch or submit a request
+- 🐦 [Twitter/X](https://twitter.com/maptiler) - Follow us for updates
 
+<br>
 
+---
 
+<br>
+
+## 🤝 Contributing
+
+We love contributions from the community! Whether it's bug reports, feature requests, or pull requests, all contributions are welcome:
+
+- Fork the repository and create your branch from `main`
+- If you've added code, add tests that cover your changes
+- Ensure your code follows our style guidelines
+- Give your pull request a clear, descriptive summary
+- Open a Pull Request with a comprehensive description
+
+<br>
+
+## 📄 License
+
+This project is licensed under the MapTiler JS Module License – see the [LICENSE](./LICENSE.md) file for details.
+
+<br>
+
+## 🙏 Acknowledgements
+
+This project is built on the shoulders of giants:
+
+- [MapTiler SDK JS](https://docs.maptiler.com/sdk-js/) – The open-source mapping library
+- [chart.js](https://www.chartjs.org/) – Simple yet flexible JavaScript charting library for the modern web
+
+<br>
+
+<p align="center" style="margin-top:20px;margin-bottom:20px;"> <a href="https://cloud.maptiler.com/account/keys/" style="display:inline-block;padding:12px 32px;background:#F2F6FF;color:#000;font-weight:bold;border-radius:6px;text-decoration:none;"> Get Your API Key <sup style="background-color:#0000ff;color:#fff;padding:2px 6px;font-size:12px;border-radius:3px;">FREE</sup><br /> <span style="font-size:90%;font-weight:400;">Start building with 100,000 free map loads per month ・ No credit card required.</span> </a> </p>
+
+<br>
+
+<p align="center"> 💜 Made with love by the <a href="https://www.maptiler.com/">MapTiler</a> team <br />
+<p align="center">
+  <a href="https://docs.maptiler.com/sdk-js/modules/elevation-profile/">Website</a> •
+  <a href="https://docs.maptiler.com/sdk-js/modules/elevation-profile/">Documentation</a> •
+  <a href="https://github.com/maptiler/maptiler-elevation-profile-control">GitHub</a>
+</p>
